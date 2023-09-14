@@ -1,7 +1,14 @@
 // Sample decks for demonstration
 const decks = [
-    { id: 1, name: "Basic Vocabulary" },
-    { id: 2, name: "Advanced Phrases" }
+    { id: 1, name: "Basic French Phrases", cards: [
+        { front: "Hello", back: "Bonjour", image: "https://example.com/hello.jpg" },
+        { front: "Thank you", back: "Merci", image: "https://example.com/thankyou.jpg" },
+        // ... add more cards here
+    ]},
+    { id: 2, name: "Important Places in France", cards: [
+        { front: "Eiffel Tower", back: "Tour Eiffel", image: "https://example.com/eiffel.jpg" },
+        // ... add more cards here
+    ]}
 ];
 
 // Populate deck list
@@ -17,6 +24,9 @@ decks.forEach(deck => {
 document.getElementById("start-game").addEventListener("click", () => {
     startFlashcardMode(deckList.value);
 });
+
+// ... rest of the logic remains the same, but with enhanced features and more cards
+
 
 // Service Worker registration
 if ('serviceWorker' in navigator) {
