@@ -1,7 +1,7 @@
 // Sample decks for demonstration
 const decks = [
     { id: 1, name: "Basic French Phrases", cards: [
-        { front: "Hello", back: "Bonjour", image: "https://example.com/hello.jpg" },
+        { front: "Hello", back: "Bonjour", image: "https://th.bing.com/th/id/OIP.DY3o-IReU0OHuGS2SflLbgHaHa?pid=ImgDet&rs=1" },
         { front: "Thank you", back: "Merci", image: "https://example.com/thankyou.jpg" },
         // ... add more cards here
     ]},
