@@ -2,19 +2,32 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
     margin: 0;
+    padding: 20px;
+}
+
+header {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+main {
+    margin-top: 30px;
+    width: 100%;
+    max-width: 600px;
 }
 
 .card {
-    width: 300px;
-    height: 400px;
+    width: 100%;
     border: 2px solid #333;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-size: cover; /* This will ensure the image covers the entire card */
+    background-size: cover;
     background-position: center;
     display: flex;
     justify-content: center;
@@ -22,6 +35,8 @@ body {
     font-size: 24px;
     cursor: pointer;
     transition: transform 0.3s;
+    position: relative;
+    overflow: hidden;
 }
 
 .card:hover {
@@ -38,19 +53,13 @@ body {
     position: absolute;
     top: 0;
     left: 0;
+    padding: 20px;
+    font-size: 20px;
+    text-align: center;
 }
 
 .card-back {
     transform: rotateY(180deg);
-}
-
-/* Sample background images for the cards */
-.card[data-word="Hello"] {
-    background-image: url('https://www.madeforstacks.com/cms-data/blog/addons/hello/image/hello-sq.png');
-}
-
-.card[data-word="Thank you"] {
-    background-image: url('https://th.bing.com/th/id/R.ff97d17cf5b8f8b440fdd2c11d287db1?rik=N4swcYSJIoIuRw&pid=ImgRaw&r=0');
 }
 
 button {
@@ -70,4 +79,5 @@ button:hover {
 
 #game-area {
     text-align: center;
+    margin-top: 20px;
 }
