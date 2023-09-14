@@ -15,13 +15,10 @@ decks.forEach(deck => {
 
 // Start game button logic
 document.getElementById("start-game").addEventListener("click", () => {
-    // Logic to start the game based on selected deck
-    // For now, just showing a placeholder message
-    const gameArea = document.getElementById("game-area");
-    gameArea.innerHTML = "<p>Game started with " + deckList.options[deckList.selectedIndex].text + " deck!</p>";
-    gameArea.hidden = false;
+    startFlashcardMode(deckList.value);
 });
 
+// Service Worker registration
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js')
         .then((registration) => {
@@ -31,6 +28,8 @@ if ('serviceWorker' in navigator) {
             console.error('Service Worker registration failed:', error);
         });
 }
+
+// Sample deck for demonstration
 const sampleDeck = {
     id: 1,
     name: "Basic Vocabulary",
@@ -39,26 +38,11 @@ const sampleDeck = {
         { front: "Thank you", back: "Gracias" }
     ]
 };
-
 localStorage.setItem('deck-1', JSON.stringify(sampleDeck));
-
-const retrievedDeck = JSON.parse(localStorage.getItem('deck-1'));
-console.log(retrievedDeck);
 
 function saveDeck(deck) {
     localStorage.setItem(`deck-${deck.id}`, JSON.stringify(deck));
 }
-
-// Sample usage:
-const sampleDeck = {
-    id: 1,
-    name: "Basic Vocabulary",
-    cards: [
-        { front: "Hello", back: "Hola" },
-        { front: "Thank you", back: "Gracias" }
-    ]
-};
-saveDeck(sampleDeck);
 
 function getAllDecks() {
     const decks = [];
@@ -71,60 +55,9 @@ function getAllDecks() {
     return decks;
 }
 
-// Populate deck list with the retrieved decks
-const decks = getAllDecks();
-decks.forEach(deck => {
-    const option = document.createElement("option");
-    option.value = deck.id;
-    option.textContent = deck.name;
-    deckList.appendChild(option);
-});
-
 let currentCardIndex = 0;
-
-function startFlashcardMode(deckId) {
-    const deck = JSON.parse(localStorage.getItem(`deck-${deckId}`));
-    if (!deck || deck.cards.length === 0) {
-        alert('Deck not found or is empty!');
-        return;
-    }
-
-    const gameArea = document.getElementById("game-area");
-    gameArea.innerHTML = `
-        <div class="card" onclick="flipCard()">
-            <div class="card-front">${deck.cards[currentCardIndex].front}</div>
-            <div class="card-back" hidden>${deck.cards[currentCardIndex].back}</div>
-        </div>
-        <button onclick="nextCard()">Next</button>
-    `;
-    gameArea.hidden = false;
-}
-
-function flipCard() {
-    const cardFront = document.querySelector(".card-front");
-    const cardBack = document.querySelector(".card-back");
-    cardFront.hidden = !cardFront.hidden;
-    cardBack.hidden = !cardBack.hidden;
-}
-
-function nextCard() {
-    const deck = JSON.parse(localStorage.getItem(`deck-${deckList.value}`));
-    currentCardIndex++;
-    if (currentCardIndex >= deck.cards.length) {
-        alert('You have reached the end of the deck!');
-        currentCardIndex = 0;
-    }
-    const cardFront = document.querySelector(".card-front");
-    const cardBack = document.querySelector(".card-back");
-    cardFront.textContent = deck.cards[currentCardIndex].front;
-    cardBack.textContent = deck.cards[currentCardIndex].back;
-    cardFront.hidden = false;
-    cardBack.hidden = true;
-}
-
-document.getElementById("start-game").addEventListener("click", () => {
-    startFlashcardMode(deckList.value);
-});
+let correctAnswers = 0;
+let incorrectAnswers = 0;
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -143,12 +76,6 @@ function startFlashcardMode(deckId) {
 
     shuffleArray(deck.cards);  // Shuffle the cards
 
-    // ... rest of the function remains the same
-}
-
-function startFlashcardMode(deckId) {
-    // ... previous code ...
-
     const gameArea = document.getElementById("game-area");
     gameArea.innerHTML = `
         <div class="card" onclick="flipCard()">
@@ -161,8 +88,12 @@ function startFlashcardMode(deckId) {
     gameArea.hidden = false;
 }
 
-let correctAnswers = 0;
-let incorrectAnswers = 0;
+function flipCard() {
+    const cardFront = document.querySelector(".card-front");
+    const cardBack = document.querySelector(".card-back");
+    cardFront.hidden = !cardFront.hidden;
+    cardBack.hidden = !cardBack.hidden;
+}
 
 function answer(knewIt) {
     if (knewIt) {
@@ -188,5 +119,10 @@ function nextCard() {
         incorrectAnswers = 0;
         return;
     }
-    // ... rest of the function remains the same
+    const cardFront = document.querySelector(".card-front");
+    const cardBack = document.querySelector(".card-back");
+    cardFront.textContent = deck.cards[currentCardIndex].front;
+    cardBack.textContent = deck.cards[currentCardIndex].back;
+    cardFront.hidden = false;
+    cardBack.hidden = true;
 }
